@@ -5,7 +5,7 @@
   "name": "classy-mongo",
   "author": "Maxime Di Natale <maxime.di-natale@epitech.eu>",
   "repository": {
-    "url": "https://github.com/PivotStick/gatos"
+    "url": "https://github.com/PivotStick/classy-mongo"
   },
   "description": "typed odm for mongodb",
   "dependencies": {
