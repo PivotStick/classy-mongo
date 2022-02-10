@@ -26,6 +26,11 @@ export class Model {
     filter: Filter<WithId<I<T>>>
   ): Promise<WithId<I<T>>>;
 
+  static findById<T extends M>(
+    this: T,
+    id: string | ObjectId
+  ): Promise<WithId<I<T>>>;
+
   static insertOne<T extends M>(
     this: T,
     doc: OptionalId<I<T>>

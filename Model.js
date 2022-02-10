@@ -29,6 +29,10 @@ class Model {
     return cast(getSchema(this), document);
   }
 
+  static findById(id) {
+    return this.findOne({ _id: ObjectId(id) });
+  }
+
   static insertOne(doc) {
     return this.collection.insertOne(doc);
   }

@@ -37,7 +37,7 @@ module.exports = async () => {
     pages: ["....", "....", "....", "...."],
   });
 
-  const book = await Book.findOne(result.insertedId);
+  const book = await Book.findById(result.insertedId);
 
   console.log(book.pageCount); // 4
 
