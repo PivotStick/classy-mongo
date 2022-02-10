@@ -1,0 +1,22 @@
+{
+  "license": "ISC",
+  "version": "0.0.1",
+  "main": "index.js",
+  "name": "classy-mongo",
+  "author": "Maxime Di Natale <maxime.di-natale@epitech.eu>",
+  "repository": {
+    "url": "https://github.com/PivotStick/gatos"
+  },
+  "description": "typed odm for mongodb",
+  "dependencies": {
+    "mongodb": "^4.3.1"
+  },
+  "scripts": {
+    "dev": "nodemon ."
+  },
+  "exports": {
+    ".": {
+      "require": "./index.js"
+    }
+  }
+}
