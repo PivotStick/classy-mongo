@@ -1,61 +1,80 @@
-const _ = require("./db");
-const { cast } = require("./cast");
-const { ObjectId } = require("mongodb");
+const _ = require('./db');
+const { cast } = require('./cast');
+const { ObjectId } = require('mongodb');
 
 const getSchema = (m) => {
-  const instance = new m();
-  return {
-    instance,
-    schema: { ...instance },
-  };
+	const instance = new m();
+	return {
+		instance,
+		schema: { ...instance }
+	};
+};
+
+const castIdFitler = (filter) => {
+	if (filter && '_id' in filter) {
+		filter._id = ObjectId(filter._id);
+	}
 };
 
 class Model {
-  _id = ObjectId.prototype;
+	_id = ObjectId.prototype;
 
-  static get collection() {
-    let name = this.name.replace(/\B[A-Z]/g, "-$&").toLowerCase();
-    name = name.endsWith("y") ? name.slice(0, -1) + "ies" : name + "s";
-    return _.db.collection(name);
-  }
+	static get collection() {
+		if (this._collection) return this._collection;
 
-  static async find(filter) {
-    const documents = await this.collection.find(filter).toArray();
-    return documents.map((document) => cast(getSchema(this), document));
-  }
+		let name = this.name.replace(/\B[A-Z]/g, '-$&').toLowerCase();
+		name = name.endsWith('y') ? name.slice(0, -1) + 'ies' : name + 's';
 
-  static async findOne(filter) {
-    const document = await this.collection.findOne(filter);
-    return cast(getSchema(this), document);
-  }
+		return (this._collection = _.db.collection(name));
+	}
 
-  static findById(id) {
-    return this.findOne({ _id: ObjectId(id) });
-  }
+	static cast(document) {
+		return cast(getSchema(this), document);
+	}
 
-  static insertOne(doc) {
-    return this.collection.insertOne(doc);
-  }
+	static async find(filter) {
+		castIdFitler(filter);
+		const documents = await this.collection.find(filter).toArray();
+		return documents.map((document) => this.cast(document));
+	}
 
-  static insertMany(docs) {
-    return this.collection.insertMany(docs);
-  }
+	static async findOne(filter) {
+		castIdFitler(filter);
+		const document = await this.collection.findOne(filter);
+		return this.cast(document);
+	}
 
-  static updateOne(filter, update) {
-    return this.collection.updateOne(filter, update);
-  }
+	static findById(_id) {
+		return this.findOne({ _id });
+	}
 
-  static updateMany(filter, update) {
-    return this.collection.updateMany(filter, update);
-  }
+	static insertOne(doc) {
+		return this.collection.insertOne(doc);
+	}
 
-  static deleteOne(filter) {
-    return this.collection.deleteOne(filter);
-  }
+	static insertMany(docs) {
+		return this.collection.insertMany(docs);
+	}
 
-  static deleteMany(filter) {
-    return this.collection.deleteMany(filter);
-  }
+	static updateOne(filter, update) {
+		castIdFitler(filter);
+		return this.collection.updateOne(filter, update);
+	}
+
+	static updateMany(filter, update) {
+		castIdFitler(filter);
+		return this.collection.updateMany(filter, update);
+	}
+
+	static deleteOne(filter) {
+		castIdFitler(filter);
+		return this.collection.deleteOne(filter);
+	}
+
+	static deleteMany(filter) {
+		castIdFitler(filter);
+		return this.collection.deleteMany(filter);
+	}
 }
 
 exports.Model = Model;
