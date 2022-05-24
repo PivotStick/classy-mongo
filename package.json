@@ -1,6 +1,6 @@
 {
   "license": "ISC",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "index.js",
   "name": "classy-mongo",
   "author": "Maxime Di Natale <maxime.di-natale@epitech.eu>",
