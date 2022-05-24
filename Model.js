@@ -11,7 +11,7 @@ const getSchema = (m) => {
 };
 
 const castIdFitler = (filter) => {
-	if (filter && '_id' in filter) {
+	if (filter && '_id' in filter && !(filter._id instanceof ObjectId)) {
 		filter._id = ObjectId(filter._id);
 	}
 };
@@ -20,7 +20,9 @@ class Model {
 	_id = ObjectId.prototype;
 
 	async populate(key) {
-		this[key] = await this.constructor.findById(this[key]);
+		const type = getSchema(this.constructor).schema[key];
+		console.log(`Populating ${this.constructor.name}'s ${key} in ->`, type.constructor.name);
+		this[key] = await type.constructor.findById(this[key]);
 		return this[key];
 	}
 

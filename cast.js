@@ -1,3 +1,9 @@
+const { ObjectId } = require('mongodb');
+
+let m;
+
+const M = () => m || (m = require('./Model').Model);
+
 const cast = (schema, instance, object) => {
 	if (!(object ?? false)) return object;
 
@@ -22,6 +28,10 @@ const cast = (schema, instance, object) => {
 
 	if (schema.constructor === object?.constructor) {
 		return object;
+	}
+
+	if (schema instanceof M()) {
+		return ObjectId(object);
 	}
 
 	return schema.constructor(object);
