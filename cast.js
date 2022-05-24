@@ -18,6 +18,7 @@ const cast = (schema, instance, object) => {
 		case Array:
 			const s = schema[0];
 			schema = [];
+			instance = [];
 			if (object?.constructor === Array) {
 				for (let i = 0; i < object?.length; i++) {
 					instance[i] = cast(s, instance[i], object?.[i]);
