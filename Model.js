@@ -22,7 +22,7 @@ class Model {
 	async populate(key) {
 		const type = getSchema(this.constructor).schema[key];
 		if (type.constructor === Array) {
-			this[key] = await Promise.all(this[key].map((id) => type.constructor.findById(id)));
+			this[key] = await Promise.all(this[key].map((id) => type[0].constructor.findById(id)));
 		} else {
 			this[key] = await type.constructor.findById(this[key]);
 		}
