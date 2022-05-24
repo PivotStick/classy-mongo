@@ -17,6 +17,8 @@ type I<T> = InstanceType<T>;
 export class Model {
 	_id = ObjectId.prototype;
 
+	populate<K extends keyof typeof this>(key: K): Promise<this[K]>;
+
 	static get collection<T extends M>(this: T): Collection<I<T>>;
 
 	static cast<T extends M>(this: T, document: any): I<T>;

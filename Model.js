@@ -19,6 +19,11 @@ const castIdFitler = (filter) => {
 class Model {
 	_id = ObjectId.prototype;
 
+	async populate(key) {
+		this[key] = await this.constructor.findById(this[key]);
+		return this[key];
+	}
+
 	static get collection() {
 		if (this._collection) return this._collection;
 
