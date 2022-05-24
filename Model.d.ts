@@ -19,6 +19,9 @@ export class Model {
 
 	populate<K extends keyof typeof this>(key: K): Promise<this[K]>;
 
+	update(filter: UpdateFilter<thi>): Promise<UpdateResult>;
+	delete(): Promise<DeleteResult>;
+
 	static get collection<T extends M>(this: T): Collection<I<T>>;
 
 	static cast<T extends M>(this: T, document: any): I<T>;

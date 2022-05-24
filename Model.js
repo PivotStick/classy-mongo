@@ -26,6 +26,14 @@ class Model {
 		return this[key];
 	}
 
+	update(filter) {
+		return this.constructor.updateOne({ _id: this._id }, filter);
+	}
+
+	delete() {
+		return this.constructor.deleteOne({ _id: this._id });
+	}
+
 	static get collection() {
 		if (this._collection) return this._collection;
 
