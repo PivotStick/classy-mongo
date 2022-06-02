@@ -11,7 +11,7 @@ const cast = (schema, instance, object) => {
 		case Object:
 			for (const key in schema) {
 				const s = schema[key];
-				instance[key] = cast(s, instance[key], object?.[key]);
+				instance[key] = cast(s, instance?.[key], object?.[key]);
 			}
 			return instance;
 
@@ -21,7 +21,7 @@ const cast = (schema, instance, object) => {
 			instance = [];
 			if (object?.constructor === Array) {
 				for (let i = 0; i < object?.length; i++) {
-					instance[i] = cast(s, instance[i], object?.[i]);
+					instance[i] = cast(s, instance?.[i], object?.[i]);
 				}
 			}
 			return instance;
