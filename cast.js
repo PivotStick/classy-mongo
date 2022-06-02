@@ -1,5 +1,12 @@
 const { ObjectId } = require('mongodb');
 
+const types = new Map([
+	[String.prototype, String],
+	[Number.prototype, Number],
+	[Boolean.prototype, Boolean],
+	[Date.prototype, (v) => new Date(v)]
+]);
+
 let m;
 
 const M = () => m || (m = require('./Model').Model);
@@ -35,7 +42,7 @@ const cast = (schema, instance, object) => {
 		return ObjectId(object);
 	}
 
-	return schema.constructor(object);
+	return types.get(schema)?.(object) || Object.setPrototypeOf(object, schema);
 };
 
 exports.cast = ({ instance, schema }, object) => cast(schema, instance, object);
