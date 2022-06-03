@@ -16,7 +16,7 @@ const cast = (schema, instance, object) => {
 
 	switch (schema.constructor) {
 		case Object:
-			instance = {};
+			instance = instance ?? {};
 			for (const key in schema) {
 				const s = schema[key];
 				instance[key] = cast(s, instance?.[key], object?.[key]);
