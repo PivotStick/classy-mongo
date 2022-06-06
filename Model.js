@@ -1,6 +1,7 @@
 const _ = require('./db');
 const { cast } = require('./cast');
 const { ObjectId } = require('mongodb');
+const pluralize = require('pluralize');
 
 const getSchema = (m) => {
 	const instance = new m();
@@ -41,7 +42,7 @@ class Model {
 		if (this._collection) return this._collection;
 
 		let name = this.name.replace(/\B[A-Z]/g, '-$&').toLowerCase();
-		name = name.endsWith('y') ? name.slice(0, -1) + 'ies' : name + 's';
+		name = pluralize(name);
 
 		return (this._collection = _.db.collection(name));
 	}
